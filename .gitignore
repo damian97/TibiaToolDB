@@ -41,3 +41,4 @@ build/
 .idea
 /src/main/java/org/tibia/
 /pic.png
+/src/main/java/org/JavaDiscordAPI/commands/
