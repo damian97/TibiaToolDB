@@ -2,6 +2,7 @@ package org.JDA;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.makeTableMethods.SelectInTable;
 
 public class CommandHandler extends ListenerAdapter {
 
@@ -58,6 +59,81 @@ public class CommandHandler extends ListenerAdapter {
     }
 
 
+
+    String[] itemNames = {
+            "vampire teeth",
+            "bloody pincers",
+            "piece of dead brain",
+            "rope belt",
+            "silencer claws",
+            "some grimeleech wings",
+            "protective charm",
+            "sabretooth",
+            "vexclaw talon"
+    };
+
+    private void handleCommandItemsPrice(String command, MessageReceivedEvent event) {
+
+        String helpCom = "Aby sprwadzić cene przedmiotu wpisz: [!nazwa_serwera, nazwa_przedmiotu] np. !dia, rope belt" +
+                "\n Możesz wpisać także [!nazwa_serwera, {crit, mana, hp}] np. !dia, mana, aby wyświetlić ceny przedmiotów do danego imbuingu";
+
+
+        String tmpServer = null;
+        String tmpItemName = null;
+        int tmpItemPrice = 0;
+
+        int commaPos = command.indexOf(',');
+
+        if (commaPos != -1) {
+            tmpServer = command.substring(0, commaPos).trim();
+            tmpItemName = command.substring(commaPos+1).trim();
+            System.out.println(tmpItemName);
+
+            if (tmpItemName.equals("crit")) {
+
+                String message = "Serwer:  " + tmpServer + "\n";
+
+                for (int i = 6; i <= 8; i++) {
+                    tmpItemPrice = getPriceFromDB(tmpServer, itemNames[i]);
+                    message += itemNames[i] + ": " + tmpItemPrice + " gp \n";
+                }
+                event.getChannel().sendMessage(message).queue();
+
+            } else if (tmpItemName.equals("mana")) {
+
+                String message = "Serwer:  " + tmpServer + "\n";
+
+                for (int i = 3; i <= 5; i++) {
+                    tmpItemPrice = getPriceFromDB(tmpServer, itemNames[i]);
+                    message += itemNames[i] + ": " + tmpItemPrice + " gp \n";
+                }
+                event.getChannel().sendMessage(message).queue();
+
+            } else if (tmpItemName.equals("hp")) {
+
+                String message = "Serwer:  " + tmpServer + "\n";
+
+                for (int i = 0; i <= 2; i++) {
+                    tmpItemPrice = getPriceFromDB(tmpServer, itemNames[i]);
+                    message += itemNames[i] + ": " + tmpItemPrice + " gp \n";
+                }
+                event.getChannel().sendMessage(message).queue();
+
+            } else {
+                tmpItemPrice = getPriceFromDB(tmpServer, tmpItemName);
+                event.getChannel().sendMessage("Cena za jedną sztukę " + tmpItemName + ", na sewerze " + tmpServer + ", wynosi: " + tmpItemPrice + " gold coin").queue();
+            }
+
+        } else if (command.equals("help")) {
+            event.getChannel().sendMessage(helpCom).queue();
+        } else {
+            event.getChannel().sendMessage("Unknown command. Try !help").queue();
+        }
+
+
+    }
+
+
     private void handleCommandImbu(String command, MessageReceivedEvent event) {
 
         String commands = "!t3crit, dia\n!t3mana\n!t3hp";
@@ -87,28 +163,14 @@ public class CommandHandler extends ListenerAdapter {
     }
 
 
-    private void handleCommandItemsPrice(String command, MessageReceivedEvent event) {
-
-        String helpCom = "Aby sprwadzić cene przedmiotu wpisz: [!nazwa_serwera, nazwa_przedmiotu] np. !dia, rope belt";
-
-
-        String tmpServer = null;
-        String tmpItemName = null;
-
-        int commaPos = command.indexOf(',');
-
-        if (commaPos != -1) {
-            tmpServer = command.substring(0, commaPos).trim();
-            tmpItemName = command.substring(commaPos+1).trim();
-            event.getChannel().sendMessage("Cena za jedną sztukę " + tmpItemName + ", na sewerze " + tmpServer + ", wynosi: " + 2831 + " gold coin").queue();
-        } else if (command.equals("help")) {
-            event.getChannel().sendMessage(helpCom).queue();
-        } else {
-            event.getChannel().sendMessage("Unknown command. Try !help").queue();
-        }
-
-
+    public int getPriceFromDB(String Server, String item) {
+        SelectInTable select = new SelectInTable();
+        int tmpItemPrice = select.selectPrice(Server, item);
+        select.closeConnection();
+        return tmpItemPrice;
     }
+
+
 
 
 }
