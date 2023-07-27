@@ -136,12 +136,25 @@ public class CommandHandler extends ListenerAdapter {
 
     private void handleCommandImbu(String command, MessageReceivedEvent event) {
 
-        String commands = "!t3crit, dia\n!t3mana\n!t3hp";
+        String commands = "Aby sprwadzić całkowitą cenę imbuingu wpisz: [!nazwa_serwera, nazwa_imbu, poziom_imbu] np. !dia, rope belt";
+
+
         String help = "Wpisz !komenda, lista komend: !commands";
+
         String t3Crit = "Cena za stworzenie imbu 3 poziomu na obrażenia krytyczne, uwzględniając " +
-                "aktualną cene imbu itemów, oraz koszt samego imbuy, na serwerze Dia wynosi: " + 285 + "k gp";
+                "aktualną cene imbu itemów, oraz koszt samego imbu, na serwerze Dia wynosi: " + 285 + "k gp";
 
         String commandsImbuCalc = "";
+
+
+
+
+
+
+
+
+
+
 
         switch (command) {
             case "help":
@@ -150,7 +163,7 @@ public class CommandHandler extends ListenerAdapter {
             case "commands":
                 event.getChannel().sendMessage(commands).queue();
                 break;
-            case "t3crit, dia":
+            case "dia, t3crit":
                 event.getChannel().sendMessage(t3Crit).queue();
                 break;
             case "rope belt":
