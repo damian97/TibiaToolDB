@@ -39,8 +39,8 @@ build/
 /.idea/
 /.idea/
 .idea
-src/main/java/org/JDA/Main.java
 /src/main/java/org/tibia/
 /pic.png
 /src/main/java/org/JavaDiscordAPI/commands/
 /src/main/java/org/makeTableMethods/Singleton.java
+/src/main/java/org/JDA/Main.java
