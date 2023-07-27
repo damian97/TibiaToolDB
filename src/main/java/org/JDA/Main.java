@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String token = "MTEzMjY5MTcyOTIyOTgxOTk1OA.GdlNoJ.fpwsDeLk5DYrkHipOjegRGZki3r05p5Xx4Wlnk";
+        String token = "";
 
         JDA jda = JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
                 .addEventListeners(new CommandHandler())
