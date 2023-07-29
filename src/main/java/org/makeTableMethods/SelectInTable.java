@@ -88,6 +88,25 @@ public class SelectInTable {
     }
 
 
+    public int selectItemAmount(String serverName, String itemName) {
+
+        setSql("SELECT `amount` FROM `" + serverName + "` WHERE name = '" + itemName + "'");
+
+        int resultAmount = -1;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(getSql());
+
+            if (resultSet.next()) {
+                resultAmount = resultSet.getInt("amount");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultAmount;
+    }
 
 
     public void closeConnection() {

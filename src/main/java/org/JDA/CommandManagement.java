@@ -54,9 +54,15 @@ public class CommandManagement {
 
         String[] tmpComamndTable = command.split(", ");
 
-        String part1 = tmpComamndTable[0];
-        String part2 = tmpComamndTable[1];
-        String part3 = tmpComamndTable[2];
+        String part1, part2, part3;
+
+        try {
+            part1 = tmpComamndTable[0];
+            part2 = tmpComamndTable[1];
+            part3 = tmpComamndTable[2];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false;
+        }
 
         for (int i = 0; i < SERVERS_NAME.length; i++) {
             String nextServerName = SERVERS_NAME[i].toLowerCase();
