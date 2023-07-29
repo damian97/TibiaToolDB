@@ -136,7 +136,7 @@ public class CommandHandler extends ListenerAdapter {
 
     private void handleCommandImbu(String command, MessageReceivedEvent event) {
 
-        String commands = "Aby sprwadzić całkowitą cenę imbuingu wpisz: [!nazwa_serwera, nazwa_imbu, poziom_imbu] np. !dia, rope belt";
+        String commands = "Aby sprwadzić całkowitą cenę imbuingu wpisz: [!nazwa_serwera, nazwa_imbu, poziom_imbu] np. !dia, crit, t3";
 
 
         String help = "Wpisz !komenda, lista komend: !commands";
@@ -148,31 +148,46 @@ public class CommandHandler extends ListenerAdapter {
 
 
 
+        CommandManagement cm = new CommandManagement();
 
 
+        if (cm.checkCommand(command)) {
+            System.out.println("Poprawna komenda");
+            event.getChannel().sendMessage("Wpisałeś komednę: " + command).queue();
+
+            ImbuCalculator calc = new ImbuCalculator(cm.getServerName(), cm.getNameImbu(), cm.getLvlImbuing());
+            int price = calc.calculatePrice();
+
+            System.out.println(calc.getLvlImbuing());
+            event.getChannel().sendMessage("Cena całkowita: " + price + " gp").queue();
 
 
-
-
-
-
-        switch (command) {
-            case "help":
-                event.getChannel().sendMessage(help).queue();
-                break;
-            case "commands":
-                event.getChannel().sendMessage(commands).queue();
-                break;
-            case "dia, t3crit":
-                event.getChannel().sendMessage(t3Crit).queue();
-                break;
-            case "rope belt":
-                event.getChannel().sendMessage("Cena rope beltów na serwerze Dia to: " + 1232).queue();
-                break;
-
-            default:
-                event.getChannel().sendMessage("Unknown command. Try !hello or !ping.").queue();
+        } else {
+            event.getChannel().sendMessage("Unknown command. Try !help").queue();
         }
+
+
+
+
+//        switch (command) {
+//            case "help":
+//                event.getChannel().sendMessage(help).queue();
+//                break;
+//            case "commands":
+//                event.getChannel().sendMessage(commands).queue();
+//                break;
+//            case "dia, t3crit":
+//                event.getChannel().sendMessage(t3Crit).queue();
+//                break;
+//            case "rope belt":
+//                event.getChannel().sendMessage("Cena rope beltów na serwerze Dia to: " + 1232).queue();
+//                break;
+//
+//            default:
+//                event.getChannel().sendMessage("Unknown command. Try !hello or !ping.").queue();
+//        }
+
+
     }
 
 
